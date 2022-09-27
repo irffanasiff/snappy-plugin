@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+
+.base {
+  width: 274px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  gap: 4px;
+  border-radius: 3px;
+  margin: 8px 20px;
+}
+
+.primary {
+  background-color: $COLOR-SNAPPY-YELLOW;
+  border: none;
+  color: black;
+  &:hover {
+    background-color: darken($COLOR-SNAPPY-YELLOW, 15%);
+    cursor: pointer;
+  }
+}
+
+.secondary {
+  background-color: $COLOR-WHITE;
+  color: $COLOR-FIGMA-BLUE;
+  border: 2px solid $COLOR-FIGMA-BLUE;
+
+  &:hover {
+    border-color: darken($COLOR-FIGMA-BLUE, 15%);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

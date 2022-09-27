@@ -1,0 +1,19 @@
+{
+  "name": "Snappy",
+  "id": "00000000",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/index.html",
+  "editorType": [
+    "figma"
+  ],
+  "parameterOnly": false,
+  "parameters": [
+    {
+      "name": "prompt",
+      "key": "prompt",
+      "description": "Enter the details for the image to be rendered",
+      "allowFreeform": true
+    }
+  ]
+}

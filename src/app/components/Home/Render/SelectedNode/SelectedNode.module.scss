@@ -1,0 +1,33 @@
+@import '../../../../styles/variables.scss';
+
+.input_label {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  padding-bottom: 0.5rem;
+}
+
+.form__input_label {
+  color: rgb(121, 121, 121);
+  max-lines: 1;
+  line-clamp: 1;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 0rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 80vw;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}

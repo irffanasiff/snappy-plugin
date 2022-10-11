@@ -1,5 +1,5 @@
 export enum LABEL {
-  HOME = 'Render',
-  IMAGE = 'Process',
-  LAB = 'Lab',
+  HOME = 'Text',
+  IMAGE = 'Image',
+  EXPLORE = 'Explore',
 }

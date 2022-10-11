@@ -15,7 +15,7 @@ const Profile = () => {
       )}
       <button onClick={onClickHandler} className={styles.avatarButton}>
         <img
-          src="https://i.pinimg.com/236x/cc/50/ca/cc50cada4658669e26f818405cc7016b.jpg"
+          src="https://64.media.tumblr.com/0efae5aa554409c093576ca158217314/a951a5713c4981b1-32/s400x600/79d5319b340848705751bd5d9a1e1c7d55fce97c.png"
           alt="circle"
           className={styles.avatar}
         />

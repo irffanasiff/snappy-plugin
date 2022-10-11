@@ -1,53 +1,30 @@
 @import './styles/variables.scss';
 
+html {
+  scroll-behaviour: smooth;
+}
 body {
   margin: 0;
+  background: $figma-color-bg;
 }
 
 .container {
-  padding: 0;
+  position: relative;
   width: $FIGMA-UI-WIDTH;
-  height: $FIGMA-UI-HEIGHT;
-}
-.loginContainer {
-  padding: 24px 0px;
-}
-
-.buttonContainer {
-  display: flex;
-}
-
-.verticalStack {
-  display: flex;
-  flex-direction: column;
-}
-
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loginText {
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 18px;
-  text-align: center;
-  padding: 0 28px;
-}
-
-.loginButton {
-  width: 100%;
-  padding-top: 4rem;
+  height: calc(100vh - 3rem);
+  padding-top: 3rem;
 }
 
 footer {
-  width: 100vw;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: white;
+  height: 50px;
+  width: 99vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: 20px;
   font-weight: 300;
   font-size: 12px;
   line-height: 16px;

@@ -1,0 +1,132 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  padding: 0.8rem;
+  width: -webkit-fill-available;
+}
+
+.hStack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 0.6rem;
+}
+
+.searchButton {
+  width: 30%;
+  font-size: 12px;
+  height: 2.45rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  gap: 4px;
+  border-radius: 3px;
+  background-color: $COLOR-TEXT-LIGHTGRAY;
+  border: none;
+  color: black;
+  &:hover {
+    background-color: $COLOR-TEXT-DARKGRAY;
+    cursor: pointer;
+  }
+}
+
+.inputBox {
+  height: 2.45rem;
+  border: 1px solid;
+  border-color: rgb(197 197 197);
+  color: rgb(121, 121, 121);
+  border-radius: 3px;
+  resize: none;
+  box-shadow: none;
+  width: -webkit-fill-available;
+  padding: 0 6px 0 6px;
+}
+
+::placeholder {
+  padding: 0 4px 0 4px;
+}
+
+.image_gallery_container {
+  padding: 1rem 0rem 1rem 0rem;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image_gallery {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 200rem;
+  gap: 12px;
+  width: 17.9rem;
+}
+
+.image_item img {
+  height: auto;
+  width: 8.3rem;
+  border-radius: 8px;
+}
+
+.image_item {
+  width: 8.2rem;
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+  position: relative;
+}
+
+.overlay {
+  display: flex;
+  align-items: flex-end;
+  justify-content: start;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  border-radius: 8px;
+  opacity: 0;
+  transition: 0.5s ease;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.58);  margin-bottom: 3px;
+}
+
+.image_gallery span {
+
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  //top: 80%;
+  left: 5%;
+  padding-right: 6px;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+/* hover */
+.image_item:hover .overlay {
+  opacity: 1;
+}
+
+ul {
+  list-style-type: none;
+  margin-block-start: 0px !important;
+  margin-block-end: 0px !important;
+  margin-inline-start: 0px !important;
+  margin-inline-end: 0px !important;
+  padding-inline-start: 0px !important;
+}

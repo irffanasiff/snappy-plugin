@@ -1,6 +1,6 @@
 {
   "name": "Snappy",
-  "id": "00000000",
+  "id": "1159478952953124650",
   "api": "1.0.0",
   "main": "dist/code.js",
   "ui": "dist/index.html",
@@ -12,7 +12,6 @@
     {
       "name": "prompt",
       "key": "prompt",
-      "description": "Enter the details for the image to be rendered",
       "allowFreeform": true
     }
   ]

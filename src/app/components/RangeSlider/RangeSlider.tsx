@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import styles from './RangeSlider.module.scss';
 
-const RangeSlider = memo(({ classes, label, onChange, value, ...sliderProps }: any) => {
+const RangeSlider = memo(({ register, classes, name, onChange, value, ...sliderProps }: any) => {
   const [sliderVal, setSliderVal] = useState(0);
   const [mouseState, setMouseState] = useState(null);
 
@@ -23,6 +23,7 @@ const RangeSlider = memo(({ classes, label, onChange, value, ...sliderProps }: a
     <div className={styles.range_slider}>
       <output htmlFor={''}>{sliderVal}</output>
       <input
+        {...register(name)}
         type="range"
         value={sliderVal}
         {...sliderProps}

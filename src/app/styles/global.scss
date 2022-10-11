@@ -4,3 +4,31 @@
   font-family: 'Inter', sans-serif;
   color: $COLOR-BLACK;
 }
+
+p {
+  margin-block-end: 0;
+  margin-block-start: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
+select {
+  border: 0px !important;
+  outline: 0px !important;
+}

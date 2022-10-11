@@ -13,13 +13,14 @@ const Button = ({ children }: ComponentProps) => {
   const { setIsAuth, loading, setLoading } = useContext(AppContext);
 
   const loginHandler = () => {
-    parent.postMessage({ pluginMessage: { type: 'login' } }, '*');
+    //parent.postMessage({ pluginMessage: { type: 'login' } }, '*');
     // when authenticated -> setIsAuth(true);
+
     setLoading(true);
     // setTimeout(() => {
-    //   setIsAuth(true);
+       setIsAuth(true);
     //   setLoading(false);
-    // }, 200);
+    // }, 1000);
   };
 
   return (

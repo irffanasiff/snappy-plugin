@@ -1,0 +1,7 @@
+@import '../styles/variables.scss';
+
+.container {
+  height: calc(100% - 54px);
+  width: 100%;
+  width: $FIGMA-UI-WIDTH;
+}

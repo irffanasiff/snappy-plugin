@@ -1,9 +1,6 @@
-.range_slider {
-  width: 100%;
-}
 input[type='range'] {
   -webkit-appearance: none;
-  margin: 18px 0px 0px 0px;
+  margin: 2px 0px 0px 10px;
   width: 100%;
 }
 input[type='range']:focus {
@@ -85,6 +82,20 @@ input[type='range']:focus::-ms-fill-upper {
 }
 
 output {
-  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  font-size: 10px;
   font-weight: 300;
+  background-color: rgb(241, 241, 241);
+  padding: 0.2rem;
+  border-radius: 3px;
+}
+.range_slider {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

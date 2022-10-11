@@ -14,10 +14,11 @@
 
 .primary {
   background-color: $COLOR-SNAPPY-YELLOW;
-  border: none;
+  border: 1px solid #d3d300;
   color: black;
   &:hover {
-    background-color: darken($COLOR-SNAPPY-YELLOW, 15%);
+    background-color: $COLOR-FIGMA-DARK-YELLOW;
+    border: 1px solid #ffff60;
     cursor: pointer;
   }
 }

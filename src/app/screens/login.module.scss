@@ -1,0 +1,55 @@
+@import '../styles/variables.scss';
+
+.container {
+  height: calc(100% - 54px);
+  width: 100%;
+  width: $FIGMA-UI-WIDTH;
+  //height: $FIGMA-UI-HEIGHT;
+}
+
+.vStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// ------------------------ //
+
+.loginScreenTransform {
+  transform: translateY(-2rem);
+}
+
+.loginContainer__spacing {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+.textContainer {
+  padding: 0px 26px;
+}
+
+.loginHeading {
+  font-size: 18px;
+  font-weight: 500;
+  color: $figma-color-text;
+  text-align: center;
+}
+
+.loginText {
+  font-weight: 300;
+  font-size: 13px;
+  text-align: center;
+  color: $COLOR-TEXT-DARKGRAY;
+}
+
+.loginButton {
+  width: 100%;
+}

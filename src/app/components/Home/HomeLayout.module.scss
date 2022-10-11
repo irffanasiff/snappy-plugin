@@ -1,17 +1,32 @@
-.VStackContainer {
+@import '../../styles/variables.scss';
+
+.container {
+  height: 100%;
+  width: 100%;
+  width: $FIGMA-UI-WIDTH;
+}
+
+.vStack {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
 }
+
 .HStack {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 100vw;
+  width: 100%;
 }
-
+.fixed {
+  z-index: 99;
+  background: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 .HStackTab {
   display: flex;
   flex-direction: row;
@@ -21,6 +36,7 @@
   gap: 10px;
   padding: 0px 12px;
 }
+
 .tab {
   color: rgba(33, 33, 33, 0.3);
   display: inline-block;
@@ -28,12 +44,15 @@
   border: none;
   text-decoration: none;
 }
+
 .activeTab {
   color: rgb(0, 0, 0);
   display: inline-block;
   background-color: transparent;
   border: none;
+  margin-bottom: 2px solid black;
 }
+
 .tab:hover,
 .tab:focus {
   color: rgba(34, 34, 34, 0.3);

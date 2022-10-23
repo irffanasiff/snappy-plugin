@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import AppContext from '../../context/app-context';
 import MenuOptions from './MenuOptions';
 import styles from './Profile.module.scss';
 
 const Profile = () => {
+  const { user } = useContext(AppContext);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const onClickHandler = () => setShowMenu(!showMenu);
+  useEffect(() => {
+    console.log('user updated - ', user);
+  }, [user]);
 
   return (
     <div>
@@ -14,11 +20,7 @@ const Profile = () => {
         </div>
       )}
       <button onClick={onClickHandler} className={styles.avatarButton}>
-        <img
-          src="https://64.media.tumblr.com/0efae5aa554409c093576ca158217314/a951a5713c4981b1-32/s400x600/79d5319b340848705751bd5d9a1e1c7d55fce97c.png"
-          alt="circle"
-          className={styles.avatar}
-        />
+        <img src={user.picture} alt="circle" className={styles.avatar} onLoad={() => console.log('Loaded')} />
       </button>
     </div>
   );

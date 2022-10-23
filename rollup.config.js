@@ -8,6 +8,8 @@ import postcss from 'rollup-plugin-postcss';
 import html from 'rollup-plugin-bundle-html-plus';
 import typescript from 'rollup-plugin-typescript';
 import svgr from '@svgr/rollup';
+import image from '@rollup/plugin-image';
+import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -91,7 +93,15 @@ export default [
       format: 'iife',
       name: 'code',
     },
-    plugins: [resolve(), typescript(), commonjs({ transformMixedEsModules: true }), production && terser()],
+    plugins: [
+      resolve(),
+      typescript(),
+      commonjs({ transformMixedEsModules: true }),
+      production && terser(),
+      image(),
+      svgr(),
+      json(),
+    ],
   },
 ];
 

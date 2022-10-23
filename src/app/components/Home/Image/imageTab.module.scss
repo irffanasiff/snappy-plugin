@@ -6,8 +6,8 @@
 }
 
 .form {
-  padding: 0rem 1rem 0rem 1rem;
-  height: calc(100% - 4px);
+  padding: 0rem 20px 0rem 20px;
+  height: calc(100%);
   width: -webkit-fill-available;
 }
 
@@ -76,31 +76,48 @@ select {
   border: 1px solid #e2dada !important;
 }
 
+.buttonMainContainer {
+  position: fixed;
+  width: -webkit-fill-available;
+  left: 0px;
+  bottom: 1rem;
+  height: 5rem;
+  margin: 0px 10px 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
 .buttonContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: -webkit-fill-available;
   overflow: hidden;
   border-radius: 3px;
+  position: relative;
+  margin: 0px 8px 2.2rem 8px;
 }
 
 .button {
   width: 100%;
-  height: 2.55rem;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
   background-color: $COLOR-SNAPPY-YELLOW;
-  border: none;
+  border: 1px solid #f5f517;
   color: black;
+
   &:hover {
-    background-color: '#ADAD00';
+    background-color: $COLOR-FIGMA-DARK-YELLOW;
+    border: 1px solid #d0d015;
     cursor: pointer;
   }
 }
@@ -108,24 +125,40 @@ select {
 .buttonText {
   z-index: 99;
 }
-
+.proButtonContainer {
+  width: 100%;
+}
+.buttonContainerStack {
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+  overflow: hidden;
+  border-radius: 3px;
+  position: relative;
+  margin: 0px 8px 0px 8px;
+}
 .nonProButtonContainer {
+  margin: 0px 10px 0px 0px;
   width: -webkit-fill-available;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 0rem 0.5rem 0rem;
+  justify-content: center;
+  position: absolute;
+  bottom: 2.2rem;
+  background: white;
 }
 
 .nonProButton {
-  margin-top: auto;
-  width: 95%;
-  height: 2.45rem;
+  width: 100%;
+  height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 12px 0px 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
   background-color: $COLOR-SNAPPY-YELLOW;
@@ -140,19 +173,19 @@ select {
 .getProButton {
   width: 30%;
   font-size: 12px;
-  height: 2.45rem;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
-  background-color: $COLOR-TEXT-LIGHTGRAY;
+  background-color: #f0f0f0;
   border: none;
   color: black;
   &:hover {
-    background-color: $COLOR-TEXT-DARKGRAY;
+    background-color: $COLOR-TEXT-LIGHTGRAY;
     cursor: pointer;
   }
 }
@@ -200,7 +233,7 @@ select {
   border-color: $COLOR-TEXT-GRAY;
   border-radius: 4px;
   //height: 8rem;
-  width: 284px;
+  width: fit-content;
   //max-height: 340px;
   overflow: hidden;
 }

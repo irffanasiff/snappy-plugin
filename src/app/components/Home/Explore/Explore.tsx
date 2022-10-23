@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useForm, Resolver } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styles from './explore.module.scss';
-import { getBase64Image } from '../../../lib/base64ToArrayBuffer';
+import { getUint8FromURL } from '../../../lib/base64ToArrayBuffer';
 
 const Explore = () => {
   const [images, setImages] = useState([]);
@@ -14,22 +14,21 @@ const Explore = () => {
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     setSearchQuery(data.query);
   });
 
   const onClickHandler = async (url) => {
-    const bufferImg = (await getBase64Image(url)) as ArrayBuffer;
-    parent.postMessage({ pluginMessage: { type: 'lexica-image-url', data: new Uint8Array(bufferImg) } }, '*');
+    await getUint8FromURL(url).then((res) => {
+      console.log('base64 img - ', res);
+      parent.postMessage({ pluginMessage: { type: 'lexica-image-url', data: res } }, '*');
+    });
   };
 
   useEffect(() => {
     axios
       .get(`https://lexica.art/api/v1/search?q=${searchQuery}`)
       .then((response) => {
-        console.log(response.data.images);
         setImages(response.data.images);
-        console.log('images = ', images);
       })
       .catch((err) => console.log(err));
   }, [searchQuery]);

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SelectedNode.module.scss';
 
 const SelectedNode = (props: { selection: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     // todo: handle for multiple selections
     <div className={styles.flex}>
-      <p className={styles.input_label}>Selected Node</p>
+      <p className={styles.input_label}>Render Inside</p>
       <p className={styles.form__input_label}>
-        ▸
         <span>
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path

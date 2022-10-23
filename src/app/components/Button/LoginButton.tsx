@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import AppContext from '../../context/app-context';
+import { subscribe } from '../../lib/account';
+import cryptoRandomString from 'crypto-random-string';
 
 import styles from './Button.module.scss';
 
@@ -8,23 +10,42 @@ interface ComponentProps {
   children: JSX.Element | string;
   secondary?: boolean;
 }
+const code = cryptoRandomString({ length: 10, type: 'url-safe' });
+console.log('random code - ', code);
 
 const Button = ({ children }: ComponentProps) => {
-  const { setIsAuth, loading, setLoading } = useContext(AppContext);
+  const { setIsAuth, loading, setLoading, setUser } = useContext(AppContext);
 
-  const loginHandler = () => {
-    //parent.postMessage({ pluginMessage: { type: 'login' } }, '*');
-    // when authenticated -> setIsAuth(true);
-
+  const loginHandler = async () => {
+    console.log('button clicked');
     setLoading(true);
-    // setTimeout(() => {
-       setIsAuth(true);
-    //   setLoading(false);
-    // }, 1000);
+    await subscribe(
+      'https://snappysnappy.herokuapp.com/auth/' + code,
+      (res, token) => {
+        setIsAuth(true);
+        setLoading(false);
+        setUser({
+          auth: true,
+          _id: res.user._id,
+          username: res.user.username,
+          name: res.user.name,
+          email: res.user.email,
+          picture: res.user.picture,
+          isPro: res.user.isPro,
+          token: token,
+        });
+      },
+      code
+    );
+    window.open('http://localhost:3000/login/' + code, '_blank');
   };
 
   return (
-    <button onClick={loginHandler} className={`${styles.primary} ${styles.base}`}>
+    <button
+      onClick={!loading && loginHandler}
+      className={`${styles.primary} ${styles.base}`}
+      style={{ cursor: loading ? 'not-allowed !important' : '' }} //todo: this does not work look into it
+    >
       {loading ? <i className="fa fa-circle-o-notch fa-spin" /> : children}
     </button>
   );

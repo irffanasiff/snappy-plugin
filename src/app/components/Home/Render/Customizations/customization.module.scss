@@ -63,7 +63,7 @@ select {
 }
 
 .seedInput {
-  height: 1.6rem;
+  height: 'fit-content';
   border: 1px solid;
   border-color: rgb(197 197 197);
   color: rgb(121, 121, 121);
@@ -71,7 +71,7 @@ select {
   resize: none;
   box-shadow: none;
   width: -webkit-fill-available;
-  padding: 0 8px 0 8px;
+  padding: 8px;
 }
 
 .modifiersContainer {
@@ -82,25 +82,9 @@ select {
 }
 
 ::placeholder {
-  padding: 0 8px 0 8px;
+  padding: 8px;
 }
 
-.multiSelect {
-  --input-width: 350px;
-  margin-top: 5px;
-  .msl-btn {
-    width: 10px;
-    height: 10px;
-  }
-  .msl-flx {
-    width: 10px;
-    height: 10px;
-  }
-  .msl-arrow-icon {
-    width: 10px;
-    height: 10px;
-  }
-}
 select {
   border: 0px;
   outline: 0px;

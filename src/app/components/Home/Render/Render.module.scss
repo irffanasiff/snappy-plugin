@@ -6,8 +6,8 @@
 }
 
 .form {
-  padding: 0rem 1rem 0rem 1rem;
-  height: calc(100% - 4px);
+  padding: 0rem 20px 0rem 20px;
+  height: calc(100%);
   width: -webkit-fill-available;
 }
 
@@ -35,9 +35,6 @@
   padding: 0.7rem;
   font-weight: 300;
   font-size: 12px;
-  &:active {
-    border: 1px solid #d3d300;
-  }
 }
 
 .vStackSlider {
@@ -68,33 +65,48 @@
   width: 100%;
 }
 
+.buttonMainContainer {
+  position: fixed;
+  width: -webkit-fill-available;
+  left: 0px;
+  bottom: 1rem;
+  height: 5rem;
+  margin: 0px 10px 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
 .buttonContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: -webkit-fill-available;
   overflow: hidden;
   border-radius: 3px;
+  position: relative;
+  margin: 0px 8px 2.2rem 8px;
 }
 
 .button {
   width: 100%;
-  height: 2.55rem;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
   background-color: $COLOR-SNAPPY-YELLOW;
-  border: none;
+  border: 1px solid #f5f517;
   color: black;
-  border: 1px solid #d3d300;
 
   &:hover {
-    background-color: '#ADAD00';
+    background-color: $COLOR-FIGMA-DARK-YELLOW;
+    border: 1px solid #d0d015;
     cursor: pointer;
   }
 }
@@ -102,23 +114,40 @@
 .buttonText {
   z-index: 99;
 }
-
+.proButtonContainer {
+  width: 100%;
+}
+.buttonContainerStack {
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+  overflow: hidden;
+  border-radius: 3px;
+  position: relative;
+  margin: 0px 8px 0px 8px;
+}
 .nonProButtonContainer {
+  margin: 0px 10px 0px 0px;
   width: -webkit-fill-available;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 0rem 0.5rem 0rem;
+  justify-content: center;
+  position: absolute;
+  bottom: 2.2rem;
+  background: white;
 }
 
 .nonProButton {
-  width: 95%;
-  height: 2.45rem;
+  width: 100%;
+  height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 12px 0px 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
   background-color: $COLOR-SNAPPY-YELLOW;
@@ -129,23 +158,22 @@
     cursor: pointer;
   }
 }
-
 .getProButton {
   width: 30%;
   font-size: 12px;
-  height: 2.45rem;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
-  background-color: $COLOR-TEXT-LIGHTGRAY;
+  background-color: #f0f0f0;
   border: none;
   color: black;
   &:hover {
-    background-color: $COLOR-TEXT-DARKGRAY;
+    background-color: $COLOR-TEXT-LIGHTGRAY;
     cursor: pointer;
   }
 }
@@ -162,10 +190,106 @@ select {
   padding: 0.1rem;
   margin: 0;
   height: 28px !important;
-  width:40px;
+  width: 40px;
   border: none;
   outline: none;
   font-size: 12px;
   color: #333;
   background-color: #fff;
+}
+
+input[type='checkbox'] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 30px;
+  height: 16px;
+  background: rgb(226, 226, 226);
+  display: block;
+  border-radius: 10px;
+  position: relative;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: #3b3b00;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: $COLOR-SNAPPY-YELLOW;
+}
+
+input:checked + label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 30px;
+}
+
+// <-- Inspiration section styles  -->
+.inspirationSectionContainer {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: start;
+  padding: 0.8rem 0rem 0.5rem 0rem;
+  gap: 0.5rem;
+}
+.inspirationHeading {
+  color: rgba(0, 0, 0, 0.681);
+  font-weight: 300;
+  font-size: 12px;
+  padding-bottom: 0.4rem;
+}
+.inspirationHStack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  width: -webkit-fill-available;
+  padding: 0.5rem;
+  border-radius: 4px;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background: #efefef;
+    transition: all 0.2s ease-in-out;
+  }
+  :hover {
+    cursor: pointer;
+    color: #5d5d5d;
+    transition: all 0.2s ease-in-out;
+  }
+}
+.inspirationText {
+  color: #717171;
+  font-weight: 300;
+  font-size: 10px;
+  padding-bottom: 0.4rem;
+}
+.inspirationIcon {
+  color: #717171;
+  width: fit-content;
+  height: -webkit-fill-available;
+  padding: 0.2rem;
+  border-radius: 3px;
+  color: black;
 }

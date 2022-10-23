@@ -1,12 +1,13 @@
 @import '../../styles/variables.scss';
 
 .base {
-  width: 274px;
+  width: -webkit-fill-available;
+  height: 2.3rem; // todo: make this height proper as per design
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   gap: 4px;
   border-radius: 3px;
   margin: 8px 20px;
@@ -14,23 +15,11 @@
 
 .primary {
   background-color: $COLOR-SNAPPY-YELLOW;
-  border: 1px solid #d3d300;
+  border: 1px solid #f5f517;
   color: black;
   &:hover {
     background-color: $COLOR-FIGMA-DARK-YELLOW;
     border: 1px solid #ffff60;
     cursor: pointer;
-  }
-}
-
-.secondary {
-  background-color: $COLOR-WHITE;
-  color: $COLOR-FIGMA-BLUE;
-  border: 2px solid $COLOR-FIGMA-BLUE;
-
-  &:hover {
-    border-color: darken($COLOR-FIGMA-BLUE, 15%);
-    cursor: pointer;
-    text-decoration: underline;
   }
 }

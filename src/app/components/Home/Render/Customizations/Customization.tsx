@@ -1,20 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import useSlider from '../../../../hooks/useSlider';
 import RangeSlider from '../../../RangeSlider/RangeSlider';
-
+import Select, { components, StylesConfig } from 'react-select';
+import { colorStyles } from './colorStyles';
 import styles from './customization.module.scss';
 
-import MultiSelect from 'react-multiple-select-dropdown-lite';
 import 'react-multiple-select-dropdown-lite/dist/index.css';
+import { Controller } from 'react-hook-form';
 
 const options = [
-  { label: 'Option 1', value: 'option_1' },
-  { label: 'Option 2', value: 'option_2' },
-  { label: 'Option 3', value: 'option_3' },
-  { label: 'Option 4', value: 'option_4' },
+  { value: 'realistic', label: 'realistic' },
+  { value: 'cyberpunk', label: 'cyberpunk' },
+  { value: '8k', label: '8k' },
+  { value: 'hyperealistic', label: 'hyperealistic' },
+  { value: 'digital art', label: 'digital art' },
+  { value: 'highly saturated colors', label: 'highly saturated colors' },
+  { value: 'illustration', label: 'illustration' },
+  { value: 'depth of field', label: 'depth of field' },
+  { value: 'mood lighting', label: 'mood lighting' },
+  { value: 'octane engine', label: 'octane engine' },
+  { value: 'unreal engine', label: 'unreal engine' },
+  { value: 'dramatic light', label: 'dramatic light' },
+  { value: '8 k post – production', label: '8 k post – production' },
 ];
 
-const Customization = ({ register, setValue }) => {
+const DropdownIndicator = (props) => {
+  return <components.DropdownIndicator {...props}>▾</components.DropdownIndicator>;
+};
+
+const CrossIcon = (props) => {
+  return (
+    <components.CrossIcon {...props}>
+      <svg width="6" height="5" viewBox="0 0 6 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M5 0.411987L1 4.41199M1 0.412018L5 4.41199"
+          stroke="#BDBDBD"
+          stroke-width="0.5"
+          strokeLinecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </components.CrossIcon>
+  );
+};
+const Customization = ({ register, setValue, control }) => {
+  const [selectedOptions, setSelectedOptions] = useState();
   const [isOpen, setIsOpen] = useState(false);
 
   const [slider1, sliderConfig1] = useSlider({
@@ -104,14 +134,32 @@ const Customization = ({ register, setValue }) => {
               name={'num_inference_steps'}
             />
           </div>
-          <div className={`${styles.hStack}  ${styles.flex}`}>
+          <div className={`${styles.vStack} ${styles.modifiersContainer}`}>
             <p className={styles.input_label}>Seed</p>
             <input placeholder={'Seed Number'} className={styles.seedInput} {...register('seed')} />
           </div>
-          {/* <div className={`${styles.vStack} ${styles.modifiersContainer}`}>
+          <div className={`${styles.vStack} ${styles.modifiersContainer}`}>
             <p className={styles.input_label}>Style Modifiers</p>
-            <MultiSelect className={styles.multiSelect} onChange={handleOnchange} options={options} />
-          </div> */}
+            <Controller
+              control={control}
+              name="categories"
+              render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                <Select
+                  options={options}
+                  styles={colorStyles}
+                  components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+                  // isLoading={isLoading}
+                  placeholder={'Add Style Modifiers'}
+                  onChange={onChange}
+                  isMulti={true}
+                  onBlur={onBlur}
+                  value={value}
+                  name={name}
+                  ref={ref}
+                />
+              )}
+            />
+          </div>
         </div>
       )}
     </div>

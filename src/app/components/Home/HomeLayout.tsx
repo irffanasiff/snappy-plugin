@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { LABEL } from '../../enums/enums';
 import Profile from '../Profile/Index';
 import Render from './Render/Render';
-import AppContext from '../../context/app-context';
 import Explore from './Explore/Explore';
 import ImageTab from './Image/ImageTab';
-
 
 import styles from './HomeLayout.module.scss';
 
 const HomeLayout = () => {
   const [activeTab, setActiveTab] = useState(LABEL.HOME);
-  const { isAuth } = useContext(AppContext);
 
   return (
     <div className={`${styles.container} ${styles.vStack}`}>

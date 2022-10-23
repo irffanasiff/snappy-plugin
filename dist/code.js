@@ -1,1 +1,272 @@
-!function(){"use strict";function e(e,a,t,n){return new(t||(t=Promise))((function(i,r){function s(e){try{c(n.next(e))}catch(e){r(e)}}function o(e){try{c(n.throw(e))}catch(e){r(e)}}function c(e){var a;e.done?i(e.value):(a=e.value,a instanceof t?a:new t((function(e){e(a)}))).then(s,o)}c((n=n.apply(e,a||[])).next())}))}function a(a){return e(this,void 0,void 0,(function*(){const e=figma.currentPage.selection.length;if(1===e){const e=figma.currentPage.selection[0],t={type:"IMAGE",scaleMode:"FILL",imageHash:figma.createImage(new Uint8Array(a)).hash};e.fills=[t]}else if(0===e){const e=figma.createFrame();e.name="snappy",e.resize(200,200);const t=200,n=new Uint8Array(a);let i=figma.createImage(n),r=figma.createRectangle();r.resize(t,t),r.fills=[{imageHash:i.hash,scaleMode:"FILL",scalingFactor:.5,type:"IMAGE"}],e.appendChild(r),e.layoutAlign="STRETCH",e.layoutGrow=1,e.layoutMode="HORIZONTAL"}else e>1&&figma.currentPage.selection.forEach((e=>{const t={type:"IMAGE",scaleMode:"FILL",imageHash:figma.createImage(new Uint8Array(a)).hash};e.fills=[t]}));figma.closePlugin()}))}figma.on("run",(({parameters:t})=>e(void 0,void 0,void 0,(function*(){(null==t?void 0:t.prompt.length)>0?figma.showUI(`<script>\n        (async (event) => {\n          try {\n            const response = await fetch('https://snappysnappy.herokuapp.com/create', {\n              method: 'POST',\n              body: JSON.stringify({ data: { prompt: '${t.prompt}' }}),\n              headers: {\n                'Content-Type': 'application/json',\n                'Access-Control-Allow-Origin': 'true',\n                'Access-Control-Allow-Credentials': 'true',\n                'Access-Control-Allow-Methods': 'POST, PUT, PATCH, GET, DELETE, OPTIONS',\n                'Access-Control-Allow-Headers': 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization',\n              },\n            });\n        \n            let data = await response.text();\n        \n            function base64ToArrayBuffer(base64) {\n              var binary_string = atob(base64);\n              var len = binary_string.length;\n              var bytes = new Uint8Array(len);\n              for (var i = 0; i < len; i++) {\n                bytes[i] = binary_string.charCodeAt(i);\n              }\n              return bytes.buffer;\n            }\n\n            const arrayBuffer = base64ToArrayBuffer(data);\n            parent.postMessage({ pluginMessage: { type: 'prompt-from-searchBar', data: arrayBuffer } }, '*');\n          } catch (err) {\n            console.log('error - ', err);\n          }\n        })();        \n        <\/script>`,{visible:!1,width:200,height:200}):(figma.showUI(__html__,{width:320,height:480,title:"Snappy"}),figma.ui.onmessage=t=>{switch(t.type){case"login":!function(){e(this,void 0,void 0,(function*(){(yield figma.clientStorage.getAsync("user"))||figma.ui.postMessage({name:"userNotAuthenticated"})}))}();break;case"prompt":break;case"render-image":!function(e){const a=figma.currentPage.selection.length;if(1===a){const a=figma.currentPage.selection[0],t={type:"IMAGE",scaleMode:"FILL",imageHash:figma.createImage(new Uint8Array(e)).hash};return void(a.fills=[t])}if(0===a){const a=200,t=new Uint8Array(e);let n=figma.createImage(t),i=figma.createRectangle();i.resize(a,a),i.fills=[{imageHash:n.hash,scaleMode:"FILL",scalingFactor:.5,type:"IMAGE"}]}else a>1&&figma.currentPage.selection.forEach((a=>{const t={type:"IMAGE",scaleMode:"FILL",imageHash:figma.createImage(new Uint8Array(e)).hash};a.fills=[t]}))}(t.data);break;case"prompt-from-searchBar":a(t.data);break;case"increase-height":figma.ui.resize(320,620);break;case"decrease-height":figma.ui.resize(320,480);break;case"lexica-image-url":!function(e){if(figma.currentPage.selection.length>1)return void figma.currentPage.selection.forEach((a=>{const t={type:"IMAGE",scaleMode:"FILL",imageHash:figma.createImage(new Uint8Array(e)).hash};a.fills=[t]}));const a=200,t=e;let n=figma.createImage(t),i=figma.createRectangle();i.resize(a,a),i.fills=[{imageHash:n.hash,scaleMode:"FILL",scalingFactor:.5,type:"IMAGE"}]}(t.data)}})})))),figma.ui.onmessage=e=>{if("prompt-from-searchBar"===e.type)a(e.data)},figma.on("selectionchange",(()=>{if(1===figma.currentPage.selection.length){figma.getNodeById(figma.currentPage.selection[0].id).exportAsync({format:"SVG"}).then((e=>{figma.ui.postMessage({type:"selected_node_bytes_data",name:"selected_node_bytes_data",data:e})})),figma.ui.postMessage({type:"selected_node",name:figma.currentPage.selection[0].name,data:{id:figma.currentPage.selection[0].id,type:figma.currentPage.selection[0].type}})}else figma.currentPage.selection.length>1?figma.ui.postMessage({name:"Select one item",data:void 0,node:void 0}):figma.ui.postMessage({name:"No area selected",data:void 0,node:void 0})}))}();
+(function () {
+    'use strict';
+
+    /******************************************************************************
+    Copyright (c) Microsoft Corporation.
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
+    ***************************************************************************** */
+
+    function __awaiter(thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    }
+
+    figma.on('run', ({ parameters }) => __awaiter(void 0, void 0, void 0, function* () {
+        const user_token = yield figma.clientStorage.getAsync('user_token');
+        const user_id = yield figma.clientStorage.getAsync('user_id');
+        console.log('user from storage - ', user_token);
+        if ((parameters === null || parameters === void 0 ? void 0 : parameters.prompt.length) > 0) {
+            if (user_token === undefined) {
+                figma.closePlugin('You are not logged in to snappy');
+            }
+            figma.showUI(`<script>
+        (async (event) => {
+          try {
+            const response = await fetch('https://snappysnappy.herokuapp.com/create/${user_id}', {
+              method: 'POST',
+              body: JSON.stringify({ data: { prompt: '${parameters.prompt}' }}),
+              headers: {
+                'Content-Type': 'application/json',
+                'authorization': 'Bearer ${user_token}'
+              },
+            });
+            console.log('response - ', response);
+            let base64Img = await response.text();
+
+            parent.postMessage({ pluginMessage: { type: 'prompt-from-searchBar', data: base64Img } }, '*');
+          } catch (err) {
+            console.log(err);
+            parent.postMessage({ pluginMessage: { type: 'error', data: err.message } }, '*');
+          }
+        })();        
+        </script>`, { visible: false, width: 200, height: 200 });
+            return;
+        }
+        figma.showUI(__html__, { width: 340, height: 490, title: 'Snappy' });
+        if (user_token === undefined) {
+            figma.ui.postMessage({ type: 'authentication', name: 'user not authenticated', data: undefined });
+        }
+        else {
+            figma.ui.postMessage({
+                type: 'authentication',
+                name: 'user  authenticated',
+                data: { token: user_token, _id: user_id },
+            });
+        }
+        figma.ui.onmessage = (msg) => {
+            switch (msg.type) {
+                case 'login':
+                    console.log('inside controller login called');
+                    authenticate(msg.data);
+                    break;
+                case 'logout':
+                    userLogout();
+                    break;
+                case 'render-image':
+                    console.log('message data - ', msg.data);
+                    pluginImageGenerate(msg.data);
+                    break;
+                case 'prompt-from-searchBar':
+                    quickImageGenerator(msg.data);
+                    break;
+                case 'increase-height':
+                    figma.ui.resize(340, 620);
+                    break;
+                case 'decrease-height':
+                    figma.ui.resize(340, 490);
+                    break;
+                case 'lexica-image-url':
+                    drawImageHandler(new Uint8Array(msg.data));
+                    break;
+                case 'error':
+                    console.log('there was an error 🇨🇭 - ', msg.data);
+                    break;
+            }
+        };
+    }));
+    function drawImageOnSelectedNode(arrayBuffer, node) {
+        const image = figma.createImage(arrayBuffer);
+        const newPaint = {
+            type: 'IMAGE',
+            scaleMode: 'FILL',
+            imageHash: image.hash,
+        };
+        if (hasFillsProperty(node)) {
+            node.fills = [newPaint];
+        }
+        else {
+            figma.notify('Can not draw Image on selected node');
+        }
+    }
+    function drawImageHandler(imageArray) {
+        const selected_node = figma.currentPage.selection;
+        if (selected_node.length == 0) {
+            console.log('selected node length is 0');
+            drawImageInCenterOfViewPort(imageArray);
+        }
+        else if (selected_node.length == 1) {
+            drawImageOnSelectedNode(imageArray, selected_node[0]);
+        }
+        else {
+            selected_node.forEach((node) => {
+                drawImageOnSelectedNode(imageArray, node);
+            });
+        }
+    }
+    function drawImageInCenterOfViewPort(arrayBuffer) {
+        const imageData = arrayBuffer;
+        let img = figma.createImage(imageData);
+        let rect = figma.createRectangle();
+        let zoomLevel = figma.viewport.zoom;
+        rect.x = figma.viewport.center.x;
+        rect.y = figma.viewport.center.y;
+        rect.resize(300 * (1 / zoomLevel), 300 * (1 / zoomLevel));
+        console.log('pasting image');
+        rect.fills = [
+            {
+                imageHash: img.hash,
+                scaleMode: 'FILL',
+                scalingFactor: 0.5,
+                type: 'IMAGE',
+            },
+        ];
+    }
+    figma.ui.onmessage = (msg) => {
+        switch (msg.type) {
+            case 'prompt-from-searchBar':
+                quickImageGenerator(msg.data);
+                break;
+        }
+    };
+    figma.on('selectionchange', () => {
+        if (figma.currentPage.selection.length === 0) {
+            console.log('no node selected');
+            figma.ui.postMessage({ type: 'selected_node_bytes_data', name: 'selected_node_bytes_data', data: undefined });
+            figma.ui.postMessage({
+                type: 'selected_node',
+                name: 'Select an area',
+                data: {
+                    id: undefined,
+                    type: undefined,
+                },
+            });
+        }
+        else if (figma.currentPage.selection.length === 1) {
+            const node = figma.getNodeById(figma.currentPage.selection[0].id);
+            node.exportAsync({ format: 'SVG' }).then((bytes) => {
+                figma.ui.postMessage({ type: 'selected_node_bytes_data', name: 'selected_node_bytes_data', data: bytes });
+            });
+            figma.ui.postMessage({
+                type: 'selected_node',
+                name: figma.currentPage.selection[0].name,
+                data: {
+                    id: figma.currentPage.selection[0].id,
+                    type: figma.currentPage.selection[0].type,
+                },
+            });
+        }
+        else if (figma.currentPage.selection.length > 1) {
+            figma.ui.postMessage({ type: 'selected_node', name: 'Multiple areas selected', data: undefined, node: undefined });
+        }
+        else {
+            figma.ui.postMessage({ type: 'selected_node', name: 'No area selected', data: undefined, node: undefined });
+        }
+    });
+    function authenticate(loginData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('storing user in storage - ', loginData);
+            yield figma.clientStorage.setAsync('user_token', `${loginData.token}`);
+            yield figma.clientStorage.setAsync('user_id', `${loginData._id}`);
+            console.log('user stored in storage');
+        });
+    }
+    function userLogout() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield figma.clientStorage.deleteAsync('user_id');
+            yield figma.clientStorage.deleteAsync('user_token');
+            console.log('user logged out');
+        });
+    }
+    function quickImageGenerator(arrayBuffer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const imageArray = figma.base64Decode(arrayBuffer);
+            drawImageHandler(imageArray);
+            figma.closePlugin();
+        });
+    }
+    function pluginImageGenerate(arrayBuffer) {
+        const numberOfNodesSelected = figma.currentPage.selection.length;
+        if (numberOfNodesSelected === 1) {
+            const node = figma.currentPage.selection[0];
+            const image = figma.createImage(new Uint8Array(arrayBuffer));
+            const newPaint = {
+                type: 'IMAGE',
+                scaleMode: 'FILL',
+                imageHash: image.hash,
+            };
+            if (hasFillsProperty(node)) {
+                node.fills = [newPaint];
+            }
+            else {
+                figma.notify('Can not draw Image on selected node');
+            }
+            return;
+        }
+        else if (numberOfNodesSelected === 0) {
+            const imageWidth = 200;
+            const imageData = new Uint8Array(arrayBuffer);
+            let img = figma.createImage(imageData);
+            let rect = figma.createRectangle();
+            rect.resize(imageWidth, imageWidth);
+            rect.fills = [
+                {
+                    imageHash: img.hash,
+                    scaleMode: 'FILL',
+                    scalingFactor: 0.5,
+                    type: 'IMAGE',
+                },
+            ];
+        }
+        else if (numberOfNodesSelected > 1) {
+            figma.currentPage.selection.forEach((node) => {
+                const image = figma.createImage(new Uint8Array(arrayBuffer));
+                const newPaint = {
+                    type: 'IMAGE',
+                    scaleMode: 'FILL',
+                    imageHash: image.hash,
+                };
+                if (hasFillsProperty(node)) {
+                    node.fills = [newPaint];
+                }
+                else {
+                    figma.notify('Can not draw Image on selected node');
+                }
+            });
+        }
+    }
+    function hasFillsProperty(node) {
+        return (node.type === 'ELLIPSE' ||
+            node.type === 'RECTANGLE' ||
+            node.type === 'VECTOR' ||
+            node.type === 'STAR' ||
+            node.type === 'POLYGON' ||
+            node.type === 'LINE' ||
+            node.type === 'TEXT');
+    }
+
+})();

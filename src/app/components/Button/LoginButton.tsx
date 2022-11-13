@@ -33,6 +33,7 @@ const Button = ({ children }: ComponentProps) => {
           picture: res.user.picture,
           isPro: res.user.isPro,
           token: token,
+          num_images_generated: res.user.num_images_generated,
         });
       },
       code

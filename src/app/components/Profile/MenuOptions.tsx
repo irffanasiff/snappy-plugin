@@ -15,7 +15,7 @@ const MenuOptions = () => {
       </button>
       <div className={`${styles.HStack}`}>
         <button className={styles.LinkButton}>Subscription</button>
-        <div className={styles.tag}>{user.isPro ? 'Pro' : 'Free'}</div>
+        <div className={styles.tag}>{user.isPro ? 'Pro' : `${25 - user.num_images_generated}${' '}left`}</div>
       </div>
       <button className={styles.LinkButton} onClick={() => setPromptGuide(true)}>
         Prompt Guide

@@ -13,7 +13,7 @@ const Login = () => {
     setTimeout(() => {
       if (currentScreen === 3) return setCurrentScreen(1);
       setCurrentScreen((prevState) => prevState + 1);
-    }, 5000);
+    }, 3000);
   }, [currentScreen]);
 
   return (

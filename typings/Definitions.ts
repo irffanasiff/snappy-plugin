@@ -9,6 +9,7 @@ export type User = {
   picture?: string;
   isPro: boolean;
   token?: string;
+  num_images_generated: number;
 };
 
 export type UserResponse = {
@@ -23,9 +24,18 @@ export type UserResponse = {
     picture: string;
     isPro: boolean;
     user_images: [any];
+    num_images_generated: number;
   };
 };
-
+export type IModal = {
+  isOpen: boolean;
+  heading: string;
+  content: string;
+  button: {
+    text: string;
+    action: () => {};
+  };
+};
 export type ISubmittedData = {
   prompt: string;
   prompt_strength?: number;

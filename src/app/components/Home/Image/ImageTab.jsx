@@ -25,7 +25,7 @@ const ImageTab = () => {
     formState: { errors },
     setValue,
   } = useForm({});
-  const onSubmit = useImageFormSubmit({ setWidthOfLoader, reset });
+  const onSubmit = useImageFormSubmit({ setWidthOfLoader, reset, user });
 
   const [slider, sliderConfig] = useSlider({
     min: 0,
@@ -111,21 +111,21 @@ const ImageTab = () => {
                 style={{
                   position: 'absolute',
                   width: `${widthOfLoader}%`,
-                  maxWidth: '206px',
-                  height: '2.22rem',
+                  maxWidth: '303px',
+                  height: '2.25rem',
                   backgroundColor: 'rgba(181, 181, 39, 0.4)',
                   border: 'none',
                   padding: '0px',
-                  borderRadius: '4px',
-                  transition: 'all 0.4s ease-in-out',
+                  borderRadius: '04px 0px 0px 4px',
+                  transition: 'all 0.5s ease-in-out',
                 }}
               />
-              <button type="submit" className={styles.button} style={{ backgroundColor: '#ffff1e' }}>
-                <p
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  style={{ zIndex: '10', color: `${hover && widthOfLoader ? 'white' : 'black'}`, fontWeight: '300' }}
-                >
+              <button
+                type="submit"
+                className={styles.button}
+                style={{ backgroundColor: '#ffff1e', fontWeight: '300 !important' }}
+              >
+                <p onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ zIndex: '10' }}>
                   {widthOfLoader ? 'Loading.. ' + parseInt(widthOfLoader) + '%' : 'Generate Image'}
                 </p>
               </button>

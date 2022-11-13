@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useContext } from 'react';
 import AppContext from '../context/app-context';
-import { base64ToArrayBuffer } from '../lib/base64ToArrayBuffer';
+import { urlToBase64Image } from '../lib/base64ToArrayBuffer';
 
 const useImageFormSubmit = ({ setWidthOfLoader, reset }) => {
   const { setLoadingTimeImageToImage, fetchingData, setFetchingData, user } = useContext(AppContext);
@@ -22,21 +22,33 @@ const useImageFormSubmit = ({ setWidthOfLoader, reset }) => {
         },
       })
       .then(async (response) => {
-        console.log('response - ', response.data);
-        const arrayBuffer = await base64ToArrayBuffer(response.data);
-        console.log('array buffer - ', arrayBuffer);
-        parent.postMessage({ pluginMessage: { type: 'render-image', data: arrayBuffer } }, '*');
         setLoadingTimeImageToImage(100);
+        const imgResponse = (await urlToBase64Image(response.data)) as {
+          data: string;
+          width: number;
+          height: number;
+        };
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'render-image',
+              data: imgResponse.data,
+              imgWidth: imgResponse.width,
+              imgHeight: imgResponse.height,
+            },
+          },
+          '*'
+        );
+        setLoadingTimeImageToImage(0);
+        setWidthOfLoader(0);
+        return;
       })
       .catch((err) => {
         setLoadingTimeImageToImage(100);
         console.log('Error while sending request to the server - ', err);
-      })
-      .finally(() => {
         setLoadingTimeImageToImage(0);
-        console.log('timer set to 0');
         setWidthOfLoader(0);
-        setFetchingData(false);
+        return;
       });
   };
 

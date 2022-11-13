@@ -18,6 +18,7 @@ async function setUserData(setUser: (user: User) => void, _id: string, token: st
     })
     .then((res) => {
       const userResponse = res.data;
+      console.log('picture - ', userResponse.picture);
       setUser({
         auth: true,
         _id: userResponse._id,
@@ -27,6 +28,7 @@ async function setUserData(setUser: (user: User) => void, _id: string, token: st
         picture: userResponse.picture,
         isPro: userResponse.isPro,
         token: token,
+        num_images_generated: userResponse.num_images_generated, // todo: change this to userResponse.num_images_generated
       });
     })
     .catch((err) => {
@@ -45,7 +47,7 @@ const UI = () => {
       await setUserData(setUser, _id, token);
       setTimeout(() => {
         setSpinner(false);
-      }, 2000);
+      }, 500);
     } else {
       setIsAuth(false);
       setSpinner(false);

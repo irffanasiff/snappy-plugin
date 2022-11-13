@@ -1,21 +1,24 @@
 import axios from 'axios';
 import { useContext } from 'react';
 import AppContext from '../context/app-context';
-import { base64ToArrayBuffer } from '../lib/base64ToArrayBuffer';
+import { urlToBase64Image } from '../lib/base64ToArrayBuffer';
 
 const useTextFormSubmit = ({ setWidthOfLoader, reset, user }) => {
-  const { setLoadingTimeTextToImage, setFetchingData } = useContext(AppContext);
+  const { setFetchingData } = useContext(AppContext);
   //const { loading, setLoading } = useContext(AppContext);
-  const random = Math.floor(Math.random() * 4) + 14;
+  const random = Math.floor(Math.random() * 4) + 8; // this function returns a random number between 14 and 18
+
+  // create a timer function which calculates the time taken by request
+  
   const onSubmit = async (data) => {
-    console.log('form submitted - ', data);
-    setLoadingTimeTextToImage(10 / random);
-    // send a request to the api
+    console.log('on submit called');
+    setWidthOfLoader((prevState) => prevState + 10 / random);
     const postData = {
       data,
     };
+    console.log('form submitted - ', postData);
     setFetchingData(true);
-    console.log('request sent to the server - ', `Bearer ${user.token}`);
+
     axios
       .post(`https://snappysnappy.herokuapp.com/create/${user._id}`, postData, {
         headers: {
@@ -23,21 +26,30 @@ const useTextFormSubmit = ({ setWidthOfLoader, reset, user }) => {
         },
       })
       .then(async (response) => {
-        console.log('response - ', response.data);
-        const arrayBuffer = base64ToArrayBuffer(response.data);
-        console.log('array buffer - ', arrayBuffer);
-        parent.postMessage({ pluginMessage: { type: 'render-image', data: arrayBuffer } }, '*');
-        setLoadingTimeTextToImage(100);
+        console.log('server response ')
+        const imgResponse = (await urlToBase64Image(response.data)) as {
+          data: string;
+          width: number;
+          height: number;
+        };
+        setWidthOfLoader(100);
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'render-image',
+              data: imgResponse.data,
+              imgWidth: imgResponse.width,
+              imgHeight: imgResponse.height,
+            },
+          },
+          '*'
+        );
+        return;
       })
       .catch((err) => {
-        setLoadingTimeTextToImage(100);
+        setWidthOfLoader(100);
         console.log('Error while sending request to the server - ', err);
-      })
-      .finally(() => {
-        setLoadingTimeTextToImage(0);
-        console.log('timer set to 0');
-        setWidthOfLoader(0);
-        setFetchingData(false);
+        return;
       });
   };
 

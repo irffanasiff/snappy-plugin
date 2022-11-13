@@ -1,12 +1,16 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './explore.module.scss';
-import { getUint8FromURL } from '../../../lib/base64ToArrayBuffer';
+import { getUint8FromURL, urlToBase64Image } from '../../../lib/base64ToArrayBuffer';
+import AppContext from '../../../context/app-context';
 
 const Explore = () => {
+  const [showHistory, setShowHistory] = useState(true);
   const [images, setImages] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('spaceship in space starwars like');
+  const [imageLoader, setImageLoader] = useState(true);
+  const { user } = useContext(AppContext);
+  const [searchQuery, setSearchQuery] = useState();
   const {
     register,
     handleSubmit,
@@ -18,20 +22,61 @@ const Explore = () => {
   });
 
   const onClickHandler = async (url) => {
-    await getUint8FromURL(url).then((res) => {
-      console.log('base64 img - ', res);
-      parent.postMessage({ pluginMessage: { type: 'lexica-image-url', data: res } }, '*');
-    });
+    const imgResponse = (await urlToBase64Image(url)) as {
+      data: string;
+      width: number;
+      height: number;
+    };
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'render-image',
+          data: imgResponse.data,
+          imgWidth: imgResponse.width,
+          imgHeight: imgResponse.height,
+        },
+      },
+      '*'
+    );
   };
 
   useEffect(() => {
+    if (!searchQuery) return;
+    setShowHistory(false);
+    setImageLoader(true);
     axios
       .get(`https://lexica.art/api/v1/search?q=${searchQuery}`)
       .then((response) => {
+        console.log(response.data.images);
         setImages(response.data.images);
+        setImageLoader(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setImageLoader(false);
+      });
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (!showHistory) return;
+    setImageLoader(true);
+    axios
+      .get(`https://snappysnappy.herokuapp.com/images/${user._id}`, {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        const imagesArr = res.data[0].user_platform[0].user_platform_images;
+        console.log('images array added to set images', imagesArr);
+        setImages(imagesArr);
+        setImageLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setImageLoader(true);
+      });
+  }, [showHistory]);
 
   return (
     <div className={styles.container}>
@@ -48,17 +93,37 @@ const Explore = () => {
           </button>
         </div>
       </form>
+      {/* <div className={styles.images_heading}>{showHistory ? 'History' : 'Search Result'}</div> */}
       <div className={styles.image_gallery_container}>
-        <ul className={styles.image_gallery}>
-          {images.map((img) => (
-            <li onClick={() => onClickHandler(`https://image.lexica.art/md/${img.id}`)} className={styles.image_item}>
-              <img src={`https://image.lexica.art/sm/${img.id}`} alt={img.prompt} />
-              <div className={styles.overlay}>
-                <span>{img.prompt}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {imageLoader ? (
+          <div className={styles.loader}>
+            <i className="fa fa-spinner fa-pulse" />
+          </div>
+        ) : (
+          <ul className={styles.image_gallery}>
+            {showHistory
+              ? images.map((img, key) => (
+                  <li key={key} onClick={() => onClickHandler(img.image_url)} className={styles.image_item}>
+                    <img src={img.image_url} alt={img.prompt} />
+                    <div className={styles.overlay}>
+                      <span>{img.prompt}</span>
+                    </div>
+                  </li>
+                ))
+              : images.map((img, key) => (
+                  <li
+                    key={key}
+                    onClick={() => onClickHandler(`https://image.lexica.art/md/${img.id}`)}
+                    className={styles.image_item}
+                  >
+                    <img src={`https://image.lexica.art/sm/${img.id}`} alt={img.prompt} />
+                    <div className={styles.overlay}>
+                      <span>{img.prompt}</span>
+                    </div>
+                  </li>
+                ))}
+          </ul>
+        )}
       </div>
     </div>
   );

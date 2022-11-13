@@ -62,8 +62,8 @@ figma.on('run', async ({ parameters }: RunEvent) => {
         userLogout();
         break;
       case 'render-image':
-        console.log('message data - ', msg.data);
-        pluginImageGenerate(msg.data);
+        const imgArray = figma.base64Decode(msg.data.split(',')[1]);
+        drawImageHandler(new Uint8Array(imgArray), msg.imgWidth as number, msg.imgHeight as number);
         break;
       case 'prompt-from-searchBar':
         quickImageGenerator(msg.data);
@@ -74,9 +74,6 @@ figma.on('run', async ({ parameters }: RunEvent) => {
       case 'decrease-height':
         figma.ui.resize(340, 490);
         break;
-      case 'lexica-image-url':
-        drawImageHandler(new Uint8Array(msg.data));
-        break;
       case 'error':
         console.log('there was an error 🇨🇭 - ', msg.data);
         break;
@@ -85,6 +82,38 @@ figma.on('run', async ({ parameters }: RunEvent) => {
     }
   };
 });
+
+function drawImageHandler(imageArray: Uint8Array, width?: number, height?: number) {
+  const selected_node: readonly SceneNode[] = figma.currentPage.selection;
+  if (selected_node.length == 0) {
+    console.log('selected node length is 0');
+    drawImageInCenterOfViewPort(imageArray, width, height);
+  } else if (selected_node.length == 1) {
+    drawImageOnSelectedNode(imageArray, selected_node[0]);
+  } else {
+    selected_node.forEach((node) => {
+      drawImageOnSelectedNode(imageArray, node);
+    });
+  }
+}
+
+function drawImageInCenterOfViewPort(arrayBuffer: Uint8Array, width: number, height: number) {
+  const imageData = arrayBuffer;
+  let img = figma.createImage(imageData);
+  let rect = figma.createRectangle();
+  rect.x = figma.viewport.center.x;
+  rect.y = figma.viewport.center.y;
+  rect.resize(width, height);
+  console.log('pasting image');
+  rect.fills = [
+    {
+      imageHash: img.hash,
+      scaleMode: 'FILL',
+      scalingFactor: 0.5,
+      type: 'IMAGE',
+    },
+  ];
+}
 
 function drawImageOnSelectedNode(arrayBuffer: Uint8Array, node: SceneNode) {
   // draw image on selected node
@@ -101,38 +130,6 @@ function drawImageOnSelectedNode(arrayBuffer: Uint8Array, node: SceneNode) {
   } else {
     figma.notify('Can not draw Image on selected node');
   }
-}
-
-function drawImageHandler(imageArray: Uint8Array) {
-  const selected_node: readonly SceneNode[] = figma.currentPage.selection;
-  if (selected_node.length == 0) {
-    console.log('selected node length is 0');
-    drawImageInCenterOfViewPort(imageArray);
-  } else if (selected_node.length == 1) {
-    drawImageOnSelectedNode(imageArray, selected_node[0]);
-  } else {
-    selected_node.forEach((node) => {
-      drawImageOnSelectedNode(imageArray, node);
-    });
-  }
-}
-function drawImageInCenterOfViewPort(arrayBuffer: Uint8Array) {
-  const imageData = arrayBuffer;
-  let img = figma.createImage(imageData);
-  let rect = figma.createRectangle();
-  let zoomLevel = figma.viewport.zoom;
-  rect.x = figma.viewport.center.x;
-  rect.y = figma.viewport.center.y;
-  rect.resize(300 * (1 / zoomLevel), 300 * (1 / zoomLevel));
-  console.log('pasting image');
-  rect.fills = [
-    {
-      imageHash: img.hash,
-      scaleMode: 'FILL',
-      scalingFactor: 0.5,
-      type: 'IMAGE',
-    },
-  ];
 }
 
 figma.ui.onmessage = (msg) => {
@@ -193,61 +190,6 @@ async function quickImageGenerator(arrayBuffer: string) {
   const imageArray = figma.base64Decode(arrayBuffer);
   drawImageHandler(imageArray);
   figma.closePlugin();
-}
-
-function pluginImageGenerate(arrayBuffer: ArrayBuffer) {
-  const numberOfNodesSelected = figma.currentPage.selection.length;
-  if (numberOfNodesSelected === 1) {
-    // append the image to the selected node
-    const node = figma.currentPage.selection[0];
-    const image = figma.createImage(new Uint8Array(arrayBuffer));
-    // imageNode.resize(width, height);
-    // imageNode.name = 'snappy';
-    const newPaint = {
-      type: 'IMAGE',
-      scaleMode: 'FILL',
-      imageHash: image.hash,
-    };
-    // if type of node = scene then return
-    if (hasFillsProperty(node)) {
-      // @ts-ignore
-      node.fills = [newPaint];
-    } else {
-      figma.notify('Can not draw Image on selected node');
-    }
-    return;
-  } else if (numberOfNodesSelected === 0) {
-    const imageWidth = 200;
-    const imageData = new Uint8Array(arrayBuffer);
-    let img = figma.createImage(imageData);
-    let rect = figma.createRectangle();
-    rect.resize(imageWidth, imageWidth);
-    rect.fills = [
-      {
-        imageHash: img.hash,
-        scaleMode: 'FILL',
-        scalingFactor: 0.5,
-        type: 'IMAGE',
-      },
-    ];
-  } else if (numberOfNodesSelected > 1) {
-    figma.currentPage.selection.forEach((node) => {
-      const image = figma.createImage(new Uint8Array(arrayBuffer));
-      // imageNode.resize(width, height);
-      // imageNode.name = 'snappy';
-      const newPaint = {
-        type: 'IMAGE',
-        scaleMode: 'FILL',
-        imageHash: image.hash,
-      };
-      if (hasFillsProperty(node)) {
-        // @ts-ignore
-        node.fills = [newPaint];
-      } else {
-        figma.notify('Can not draw Image on selected node');
-      }
-    });
-  }
 }
 
 function hasFillsProperty(node: SceneNode): node is FrameNode | GroupNode {

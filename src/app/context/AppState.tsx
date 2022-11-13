@@ -4,7 +4,15 @@ import { User } from '../../../typings/Definitions';
 
 const AppState = ({ children }) => {
   const [isAuth, setIsAuth] = useState(true);
-
+  const [openModal, setOpenModal] = useState({
+    isOpen: false,
+    heading: undefined,
+    content: undefined,
+    button: {
+      text: undefined,
+      action: () => {},
+    },
+  });
   const [user, setUser] = useState<User>({
     auth: false,
     _id: undefined,
@@ -14,6 +22,7 @@ const AppState = ({ children }) => {
     picture: undefined,
     isPro: false,
     token: undefined,
+    num_images_generated: 0,
   });
   const [loading, setLoading] = useState(false);
   const [loadingTimeTextToImage, setLoadingTimeTextToImage] = useState(0);
@@ -27,6 +36,8 @@ const AppState = ({ children }) => {
       value={{
         user,
         setUser,
+        openModal,
+        setOpenModal,
         isAuth,
         setIsAuth,
         loading,

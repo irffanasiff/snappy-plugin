@@ -78,8 +78,8 @@
                     userLogout();
                     break;
                 case 'render-image':
-                    console.log('message data - ', msg.data);
-                    pluginImageGenerate(msg.data);
+                    const imgArray = figma.base64Decode(msg.data.split(',')[1]);
+                    drawImageHandler(new Uint8Array(imgArray), msg.imgWidth, msg.imgHeight);
                     break;
                 case 'prompt-from-searchBar':
                     quickImageGenerator(msg.data);
@@ -90,15 +90,44 @@
                 case 'decrease-height':
                     figma.ui.resize(340, 490);
                     break;
-                case 'lexica-image-url':
-                    drawImageHandler(new Uint8Array(msg.data));
-                    break;
                 case 'error':
                     console.log('there was an error 🇨🇭 - ', msg.data);
                     break;
             }
         };
     }));
+    function drawImageHandler(imageArray, width, height) {
+        const selected_node = figma.currentPage.selection;
+        if (selected_node.length == 0) {
+            console.log('selected node length is 0');
+            drawImageInCenterOfViewPort(imageArray, width, height);
+        }
+        else if (selected_node.length == 1) {
+            drawImageOnSelectedNode(imageArray, selected_node[0]);
+        }
+        else {
+            selected_node.forEach((node) => {
+                drawImageOnSelectedNode(imageArray, node);
+            });
+        }
+    }
+    function drawImageInCenterOfViewPort(arrayBuffer, width, height) {
+        const imageData = arrayBuffer;
+        let img = figma.createImage(imageData);
+        let rect = figma.createRectangle();
+        rect.x = figma.viewport.center.x;
+        rect.y = figma.viewport.center.y;
+        rect.resize(width, height);
+        console.log('pasting image');
+        rect.fills = [
+            {
+                imageHash: img.hash,
+                scaleMode: 'FILL',
+                scalingFactor: 0.5,
+                type: 'IMAGE',
+            },
+        ];
+    }
     function drawImageOnSelectedNode(arrayBuffer, node) {
         const image = figma.createImage(arrayBuffer);
         const newPaint = {
@@ -112,39 +141,6 @@
         else {
             figma.notify('Can not draw Image on selected node');
         }
-    }
-    function drawImageHandler(imageArray) {
-        const selected_node = figma.currentPage.selection;
-        if (selected_node.length == 0) {
-            console.log('selected node length is 0');
-            drawImageInCenterOfViewPort(imageArray);
-        }
-        else if (selected_node.length == 1) {
-            drawImageOnSelectedNode(imageArray, selected_node[0]);
-        }
-        else {
-            selected_node.forEach((node) => {
-                drawImageOnSelectedNode(imageArray, node);
-            });
-        }
-    }
-    function drawImageInCenterOfViewPort(arrayBuffer) {
-        const imageData = arrayBuffer;
-        let img = figma.createImage(imageData);
-        let rect = figma.createRectangle();
-        let zoomLevel = figma.viewport.zoom;
-        rect.x = figma.viewport.center.x;
-        rect.y = figma.viewport.center.y;
-        rect.resize(300 * (1 / zoomLevel), 300 * (1 / zoomLevel));
-        console.log('pasting image');
-        rect.fills = [
-            {
-                imageHash: img.hash,
-                scaleMode: 'FILL',
-                scalingFactor: 0.5,
-                type: 'IMAGE',
-            },
-        ];
     }
     figma.ui.onmessage = (msg) => {
         switch (msg.type) {
@@ -208,56 +204,6 @@
             drawImageHandler(imageArray);
             figma.closePlugin();
         });
-    }
-    function pluginImageGenerate(arrayBuffer) {
-        const numberOfNodesSelected = figma.currentPage.selection.length;
-        if (numberOfNodesSelected === 1) {
-            const node = figma.currentPage.selection[0];
-            const image = figma.createImage(new Uint8Array(arrayBuffer));
-            const newPaint = {
-                type: 'IMAGE',
-                scaleMode: 'FILL',
-                imageHash: image.hash,
-            };
-            if (hasFillsProperty(node)) {
-                node.fills = [newPaint];
-            }
-            else {
-                figma.notify('Can not draw Image on selected node');
-            }
-            return;
-        }
-        else if (numberOfNodesSelected === 0) {
-            const imageWidth = 200;
-            const imageData = new Uint8Array(arrayBuffer);
-            let img = figma.createImage(imageData);
-            let rect = figma.createRectangle();
-            rect.resize(imageWidth, imageWidth);
-            rect.fills = [
-                {
-                    imageHash: img.hash,
-                    scaleMode: 'FILL',
-                    scalingFactor: 0.5,
-                    type: 'IMAGE',
-                },
-            ];
-        }
-        else if (numberOfNodesSelected > 1) {
-            figma.currentPage.selection.forEach((node) => {
-                const image = figma.createImage(new Uint8Array(arrayBuffer));
-                const newPaint = {
-                    type: 'IMAGE',
-                    scaleMode: 'FILL',
-                    imageHash: image.hash,
-                };
-                if (hasFillsProperty(node)) {
-                    node.fills = [newPaint];
-                }
-                else {
-                    figma.notify('Can not draw Image on selected node');
-                }
-            });
-        }
     }
     function hasFillsProperty(node) {
         return (node.type === 'ELLIPSE' ||

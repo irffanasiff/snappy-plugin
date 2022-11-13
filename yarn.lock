@@ -1085,10 +1085,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.3.0.tgz#ea89004119dc42db2e1dba0f97d553f7372f6fcb"
   integrity sha512-AHPmaAx+RYfZz0eYu6Gviiagpmiyw98ySSlQvCUhVGDRtDFe4DBS0x1bSjdF3gqUDYOczB+yYvBTtEylYSdRhg==
 
-"@figma/plugin-typings@^1.26.0":
-  version "1.54.0"
-  resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.54.0.tgz#73281950b7b7582136309e7258d8f649e256b630"
-  integrity sha512-jetMn5s9p+X/iB+ZXbUrMI++8zhK21n6W9KT/IAz4DfI9NMy0+URlEaySmqRMyKwZUMVRhzYO10QzQLfOXk1fQ==
+"@figma/plugin-typings@^1.55.0":
+  version "1.55.0"
+  resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.55.0.tgz#043ac2bb8850d4b49f7b76636853baab99967ccd"
+  integrity sha512-Lw90dEPGyQ3if0LtZaUATtD1D9TeHDi5SoUc9wPWJAvKoTYRJJwzNCEskKCUQPFzi4UgFcNeTEMgpSyVUWpR9w==
 
 "@floating-ui/core@^1.0.1":
   version "1.0.1"
@@ -1379,10 +1379,10 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react-dom@^18.0.6":
-  version "18.0.6"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.6.tgz#36652900024842b74607a17786b6662dd1e103a1"
-  integrity sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==
+"@types/react-dom@^18.0.8":
+  version "18.0.8"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.8.tgz#d2606d855186cd42cc1b11e63a71c39525441685"
+  integrity sha512-C3GYO0HLaOkk9dDAz3Dl4sbe4AKUGTCfFIZsz3n/82dPNN8Du533HzKatDxeUYWu24wJgMP1xICqkWk1YOLOIw==
   dependencies:
     "@types/react" "*"
 
@@ -1393,10 +1393,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.21":
+"@types/react@*":
   version "18.0.21"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.21.tgz#b8209e9626bb00a34c76f55482697edd2b43cc67"
   integrity sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^18.0.24":
+  version "18.0.24"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.24.tgz#2f79ed5b27f08d05107aab45c17919754cc44c20"
+  integrity sha512-wRJWT6ouziGUy+9uX0aW4YOJxAY0bG6/AOk5AW5QSvZqI7dk6VBIbXvcVgIw/W5Jrl24f77df98GEKTJGOLx7Q==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3089,10 +3098,10 @@ react-is@^16.13.1, react-is@^16.7.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-select@^5.5.1:
-  version "5.5.4"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.5.4.tgz#da05b8b66d33f6fc1f92fdccd0fa50d7f4418554"
-  integrity sha512-lyr19joBUm/CNJgjZMBSnFvJ/MeHCmBYvQ050qYAP3EPa7Oenlnx9guhU+SW0goYgxLQyqwRvkFllQpFAp8tmQ==
+react-select@^5.5.7:
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.5.7.tgz#87760030e6377a7ae3d0b1e419190af175ec2a0e"
+  integrity sha512-izQBXNhTPqXDw4gxzTbc9aLII4tCJ2pdMm6l/WVzKhfHm3RLErheqDNgeenU0XxzqbwT9swYO4CAYk5IzqLlYw==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"

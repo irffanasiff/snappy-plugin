@@ -58,23 +58,29 @@
 }
 
 .image_gallery {
-  overflow: auto;
+  // overflow-y: auto;
+  // overflow-x: hidden;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
-  height: 200rem;
-  gap: 12px;
-  width: 17.9rem;
+  height: fit-content;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  width: 18rem;
 }
 
 .image_item img {
-  height: auto;
-  width: 8.3rem;
+  height: 8.5rem;
+  width: 8.5rem;
   border-radius: 8px;
+  object-fit: cover;
+  z-index: 1;
 }
 
 .image_item {
-  width: 8.2rem;
+  width: 8.5rem;
+  height: 8.5rem;
   margin: 0;
   padding: 0;
   border-radius: 8px;
@@ -82,11 +88,14 @@
 }
 
 .overlay {
+  height: 8.5rem;
+  width: 8.5rem;
   display: flex;
   align-items: flex-end;
   justify-content: start;
   flex-direction: row;
   position: absolute;
+  z-index: 5;
   top: 0;
   bottom: 0;
   left: 0;
@@ -97,13 +106,13 @@
   opacity: 0;
   transition: 0.5s ease;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.58);  margin-bottom: 3px;
+  background-color: rgba(0, 0, 0, 0.58);
+  margin-bottom: 3px;
 }
 
 .image_gallery span {
-
   color: white;
-  font-size: 8px;
+  font-size: 9px;
   position: absolute;
   //top: 80%;
   left: 5%;
@@ -120,6 +129,8 @@
 /* hover */
 .image_item:hover .overlay {
   opacity: 1;
+  width: 8.5rem;
+  height: 8.5rem;
 }
 
 ul {
@@ -129,4 +140,16 @@ ul {
   margin-inline-start: 0px !important;
   margin-inline-end: 0px !important;
   padding-inline-start: 0px !important;
+}
+
+.loader {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.images_heading {
+  font-size: 14px;
+  padding: 0rem 0.5rem 0rem 0.5rem;
 }

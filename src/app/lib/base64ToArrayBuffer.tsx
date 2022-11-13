@@ -13,12 +13,12 @@ export const urlToBase64Image = (url: string) => {
   return new Promise(async (resolve) => {
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = img.naturalHeight;
+      canvas.height = img.naturalHeight;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0);
-      const dataURL = canvas.toDataURL('image/png');
-      resolve(dataURL);
+      const dataURL = canvas.toDataURL('');
+      resolve({ data: dataURL, width: img.naturalWidth, height: img.naturalHeight });
     };
     img.src = url;
   });

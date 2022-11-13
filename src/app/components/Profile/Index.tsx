@@ -20,7 +20,16 @@ const Profile = () => {
         </div>
       )}
       <button onClick={onClickHandler} className={styles.avatarButton}>
-        <img src={user.picture} alt="circle" className={styles.avatar} onLoad={() => console.log('Loaded')} />
+        <img
+          src={
+            imgLoaded
+              ? user.picture
+              : 'https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-picture-default-avatar-photo-placeholder-profile-picture-eps-file-easy-to-edit-125707135.jpg'
+          }
+          className={styles.avatar}
+          alt={user.username}
+          onLoad={() => console.log('Loaded')}
+        />
       </button>
     </div>
   );

@@ -4,6 +4,16 @@ import { User } from '../../../typings/Definitions';
 const AppContext = createContext({
   user: {} as User,
   setUser: (user: User) => {},
+  openModal: {
+    isOpen: false,
+    heading: '',
+    content: '',
+    button: {
+      text: '',
+      action: () => {},
+    },
+  },
+  setOpenModal: (openModal: any) => {},
   isAuth: true,
   setIsAuth: (value: boolean) => {},
   loading: false,

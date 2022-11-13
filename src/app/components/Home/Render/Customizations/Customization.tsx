@@ -35,7 +35,7 @@ const CrossIcon = (props) => {
         <path
           d="M5 0.411987L1 4.41199M1 0.412018L5 4.41199"
           stroke="#BDBDBD"
-          stroke-width="0.5"
+          strokeWidth="0.5"
           strokeLinecap="round"
           stroke-linejoin="round"
         />
@@ -100,7 +100,6 @@ const Customization = ({ register, setValue, control }) => {
                   512
                 </option>
                 <option value="768">768</option>
-                <option value="1024">1024</option>
               </select>
             </div>
             <div className={styles.hStack}>
@@ -112,7 +111,6 @@ const Customization = ({ register, setValue, control }) => {
                   512
                 </option>
                 <option value="768">768</option>
-                <option value="1024">1024</option>
               </select>
             </div>
           </div>
@@ -142,7 +140,7 @@ const Customization = ({ register, setValue, control }) => {
             <p className={styles.input_label}>Style Modifiers</p>
             <Controller
               control={control}
-              name="categories"
+              name="modifiers"
               render={({ field: { onChange, onBlur, value, name, ref } }) => (
                 <Select
                   options={options}
